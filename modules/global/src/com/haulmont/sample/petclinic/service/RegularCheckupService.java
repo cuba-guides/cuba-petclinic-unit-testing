@@ -5,10 +5,13 @@ import com.haulmont.sample.petclinic.entity.visit.Visit;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface VisitService {
+public interface RegularCheckupService {
 
-  String NAME = "petclinic_VisitService";
+  String NAME = "petclinic_RegularCheckupService";
 
-  Visit createVisitForToday(String identificationNumber);
 
+  LocalDate calculateNextRegularCheckupDate(
+      Pet pet,
+      List<Visit> vistsOfPet
+  );
 }

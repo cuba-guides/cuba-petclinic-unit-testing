@@ -1,21 +1,15 @@
-package com.haulmont.sample.petclinic.service.visit.calculate_next_regular_checkup_date;
+package com.haulmont.sample.petclinic.service.visit.regular_checkup;
 
-import com.haulmont.cuba.core.entity.Entity;
-import com.haulmont.cuba.core.global.DataManager;
-import com.haulmont.cuba.core.global.View;
-import com.haulmont.sample.petclinic.PetclinicTestContainer;
 import com.haulmont.sample.petclinic.entity.pet.Pet;
 import com.haulmont.sample.petclinic.entity.pet.PetType;
 import com.haulmont.sample.petclinic.entity.visit.Visit;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
 
 
 /**
- * PetclinicData represents an API abstraction for the Visit Service use-case
+ * PetclinicData represents an API abstraction for the Regular Checkup Service use-case
  */
 public class PetclinicData {
 

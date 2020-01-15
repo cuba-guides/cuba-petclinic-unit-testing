@@ -1,4 +1,4 @@
-package com.haulmont.sample.petclinic.service.visit.calculate_next_regular_checkup_date;
+package com.haulmont.sample.petclinic.service.visit.regular_checkup;
 
 import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -6,8 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.haulmont.cuba.core.global.TimeSource;
 import com.haulmont.sample.petclinic.entity.pet.Pet;
 import com.haulmont.sample.petclinic.entity.visit.Visit;
-import com.haulmont.sample.petclinic.service.VisitService;
-import com.haulmont.sample.petclinic.service.VisitServiceBean;
+import com.haulmont.sample.petclinic.service.RegularCheckupService;
+import com.haulmont.sample.petclinic.service.RegularCheckupServiceBean;
 import com.haulmont.sample.petclinic.service.calculator.ElectricPetTypeCalculator;
 import com.haulmont.sample.petclinic.service.calculator.FirePetTypeCalculator;
 import com.haulmont.sample.petclinic.service.calculator.OtherPetTypesCalculator;
@@ -27,7 +27,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class VisitServiceCalculateNextRegularCheckupDateTest {
+class RegularCheckupServiceTest {
 
   private final LocalDate LAST_YEAR = now().minusYears(1);
   private final LocalDate LAST_MONTH = now().minusMonths(1);
@@ -41,7 +41,7 @@ class VisitServiceCalculateNextRegularCheckupDateTest {
   private TimeSource timeSource;
 
 
-  private VisitService visitService;
+  private RegularCheckupService regularCheckupService;
   private List<Visit> visits = new ArrayList<>();
   private PetclinicData data = new PetclinicData();
 
@@ -64,12 +64,11 @@ class VisitServiceCalculateNextRegularCheckupDateTest {
     ).collect(Collectors.toList());
 
 
-    // and: visitService (System under Test) is manually created (no Integration test)
-    visitService = new VisitServiceBean(
+    // and: regularCheckupService (System under Test) is manually created (no Integration test)
+    regularCheckupService = new RegularCheckupServiceBean(
         timeSource,
         regularCheckupDateCalculators
     );
-
   }
 
 
@@ -94,7 +93,7 @@ class VisitServiceCalculateNextRegularCheckupDateTest {
 
       // when:
       LocalDate nextRegularCheckup =
-          visitService.calculateNextRegularCheckupDate(electricPet, visits);
+          regularCheckupService.calculateNextRegularCheckupDate(electricPet, visits);
 
       // then:
       assertThat(nextRegularCheckup)
@@ -117,7 +116,7 @@ class VisitServiceCalculateNextRegularCheckupDateTest {
 
       // when:
       LocalDate nextRegularCheckup =
-          visitService.calculateNextRegularCheckupDate(electricPet, visits);
+          regularCheckupService.calculateNextRegularCheckupDate(electricPet, visits);
 
       // then: the date of the last checkup is used
       assertThat(nextRegularCheckup)
@@ -133,7 +132,7 @@ class VisitServiceCalculateNextRegularCheckupDateTest {
 
       // when:
       LocalDate nextRegularCheckup =
-          visitService.calculateNextRegularCheckupDate(electricPet, visits);
+          regularCheckupService.calculateNextRegularCheckupDate(electricPet, visits);
 
       // then:
       assertThat(nextRegularCheckup)
@@ -149,7 +148,7 @@ class VisitServiceCalculateNextRegularCheckupDateTest {
 
       // when:
       LocalDate nextRegularCheckup =
-          visitService.calculateNextRegularCheckupDate(electricPet, visits);
+          regularCheckupService.calculateNextRegularCheckupDate(electricPet, visits);
 
       // then:
       assertThat(nextRegularCheckup)
@@ -172,7 +171,7 @@ class VisitServiceCalculateNextRegularCheckupDateTest {
 
     // when:
     LocalDate nextRegularCheckup =
-        visitService.calculateNextRegularCheckupDate(firePet, visits);
+        regularCheckupService.calculateNextRegularCheckupDate(firePet, visits);
 
     // then:
     assertThat(nextRegularCheckup)
@@ -191,7 +190,7 @@ class VisitServiceCalculateNextRegularCheckupDateTest {
 
     // when:
     LocalDate nextRegularCheckup =
-        visitService.calculateNextRegularCheckupDate(waterPet, visits);
+        regularCheckupService.calculateNextRegularCheckupDate(waterPet, visits);
 
     // then:
     assertThat(nextRegularCheckup)
