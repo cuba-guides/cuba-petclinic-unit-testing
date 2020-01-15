@@ -19,7 +19,10 @@ public class RegularCheckupServiceBean implements RegularCheckupService {
   final protected List<RegularCheckupDateCalculator> regularCheckupDateCalculators;
 
   @Inject
-  public RegularCheckupServiceBean(TimeSource timeSource, List<RegularCheckupDateCalculator> regularCheckupDateCalculators) {
+  public RegularCheckupServiceBean(
+      TimeSource timeSource,
+      List<RegularCheckupDateCalculator> regularCheckupDateCalculators
+  ) {
     this.timeSource = timeSource;
     this.regularCheckupDateCalculators = regularCheckupDateCalculators;
   }
