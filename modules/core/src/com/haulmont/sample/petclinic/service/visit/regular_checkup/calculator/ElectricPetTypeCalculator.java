@@ -1,4 +1,4 @@
-package com.haulmont.sample.petclinic.service.calculator;
+package com.haulmont.sample.petclinic.service.visit.regular_checkup.calculator;
 
 import com.haulmont.cuba.core.global.TimeSource;
 import com.haulmont.sample.petclinic.entity.pet.Pet;
@@ -25,12 +25,12 @@ public class ElectricPetTypeCalculator implements RegularCheckupDateCalculator {
   @Override
   public LocalDate calculateRegularCheckupDate(
       Pet pet,
-      List<Visit> visitsOfPet,
+      List<Visit> visitHistory,
       TimeSource timeSource
   ) {
 
-    return visitsOfPet.stream()
-        .filter(visit -> visit.getDescription().contains("Regular Checkup"))
+    return visitHistory.stream()
+        .filter(Visit::matchesRegularCheckup)
         .map(Visit::getVisitDate)
         .max(Date::compareTo)
         .map(date -> max(

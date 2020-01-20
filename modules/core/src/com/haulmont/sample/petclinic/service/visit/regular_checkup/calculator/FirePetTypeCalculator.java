@@ -1,4 +1,4 @@
-package com.haulmont.sample.petclinic.service.calculator;
+package com.haulmont.sample.petclinic.service.visit.regular_checkup.calculator;
 
 import com.haulmont.cuba.core.global.TimeSource;
 import com.haulmont.sample.petclinic.entity.pet.Pet;
@@ -7,37 +7,36 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-@Component("petclinic_OtherPetTypesCalculator")
-@Order(Ordered.LOWEST_PRECEDENCE)
-public class OtherPetTypesCalculator implements RegularCheckupDateCalculator {
+@Component("petclinic_FirePetTypeCalculator")
+@Order(1)
+public class FirePetTypeCalculator implements RegularCheckupDateCalculator {
 
   @Override
   public boolean supports(Pet pet) {
-    return true;
+    return Objects.equals(pet.getType().getName(), "Fire");
   }
 
   @Override
   public LocalDate calculateRegularCheckupDate(
       Pet pet,
-      List<Visit> visitsOfPet,
+      List<Visit> visitHistory,
       TimeSource timeSource
   ) {
 
 
-    Optional<Date> latestRegularCheckup = visitsOfPet.stream()
-        .filter(visit -> visit.getDescription().contains("Regular Checkup"))
+    Optional<Date> latestRegularCheckup = visitHistory.stream()
+        .filter(Visit::matchesRegularCheckup)
         .map(Visit::getVisitDate)
         .max(Date::compareTo);
 
     return latestRegularCheckup
-        .map(date -> toLocalDate(date).plusMonths(9))
+        .map(date -> toLocalDate(date).plusMonths(6))
         .orElse(timeSource.now().toLocalDate().plusMonths(1));
-
   }
 
 

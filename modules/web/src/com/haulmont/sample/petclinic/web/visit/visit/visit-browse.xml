@@ -27,9 +27,12 @@
                     dataContainer="visitsDc"
                     width="100%">
             <actions>
-                <action id="create" type="create" openType="DIALOG"/>
-                <action id="edit" type="edit"
-                        openType="DIALOG"/>
+                <action id="create" type="create" />
+                <action id="createRegularCheckup"
+                  icon="font-icon:CLOCK_O"
+                  caption="msg://createRegularCheckup"
+                />
+                <action id="edit" type="edit" />
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
@@ -41,6 +44,7 @@
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn" action="visitsTable.create"/>
+                <button id="createRegularCheckupBtn" action="visitsTable.createRegularCheckup"/>
                 <button id="editBtn" action="visitsTable.edit"/>
                 <button id="removeBtn" action="visitsTable.remove"/>
             </buttonsPanel>

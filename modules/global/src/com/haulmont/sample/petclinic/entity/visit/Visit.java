@@ -1,5 +1,6 @@
 package com.haulmont.sample.petclinic.entity.visit;
 
+import java.util.Optional;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import com.haulmont.sample.petclinic.entity.pet.Pet;
@@ -58,5 +59,11 @@ public class Visit extends StandardEntity {
 
     public Pet getPet() {
         return pet;
+    }
+
+    public boolean matchesRegularCheckup() {
+        return Optional.ofNullable(getDescription())
+            .map(description -> description.contains("Regular Checkup"))
+            .orElse(false);
     }
 }

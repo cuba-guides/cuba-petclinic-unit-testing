@@ -10,7 +10,7 @@
           extends="_local"
           name="visit-with-pet">
         <property name="pet"
-                  view="_minimal"/>
+                  view="pet-with-owner-and-type"/>
     </view>
     <view class="com.haulmont.sample.petclinic.entity.owner.Owner"
           extends="_local"

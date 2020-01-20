@@ -19,15 +19,21 @@
         </collection>
     </data>
 
-    <dialogMode height="600"
-                width="800"/>
+    <actions>
+        <action id="proposeRegularCheckupDate"
+          icon="font-icon:CLOCK_O"
+        />
+    </actions>
+
+    <dialogMode
+        forceDialog="true"/>
 
     <layout expand="editActions" spacing="true">
         <form id="fieldGroup" dataContainer="visitDc">
             <column width="250px">
-                <dateField property="visitDate"/>
+                <lookupPickerField editable="false" property="pet" optionsContainer="petsDc"/>
+                <dateField id="visitDateField" property="visitDate" contextHelpText="msg://proposedRegularCheckupDate"/>
                 <textArea rows="5" property="description"/>
-                <lookupPickerField property="pet" optionsContainer="petsDc"/>
             </column>
         </form>
 
