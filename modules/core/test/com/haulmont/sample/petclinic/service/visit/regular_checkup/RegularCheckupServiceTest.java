@@ -47,14 +47,19 @@ class RegularCheckupServiceTest {
   }
 
   @Test
-  @DisplayName("only Calculators that support the Pet instance will be asked to calculate the checkup date")
+  @DisplayName(
+      "1. only Calculators that support the Pet instance " +
+      "will be asked to calculate the checkup date"
+  )
   public void one_supportingCalculator_thisOneIsChosen() {
 
     // given: first calculator does not support the Pet
-    RegularCheckupDateCalculator threeMonthCalculator = notSupporting(THREE_MONTHS_AGO);
+    RegularCheckupDateCalculator threeMonthCalculator =
+        notSupporting(THREE_MONTHS_AGO);
 
     // and: second calculator supports the Pet
-    RegularCheckupDateCalculator lastYearCalculator = supportingWithDate(LAST_YEAR);
+    RegularCheckupDateCalculator lastYearCalculator =
+        supportingWithDate(LAST_YEAR);
 
     // when:
     LocalDate nextRegularCheckup = calculate(
@@ -68,7 +73,10 @@ class RegularCheckupServiceTest {
 
 
   @Test
-  @DisplayName("in case multiple calculators support a Pet, the first one is chosen to calculate")
+  @DisplayName(
+      "2. in case multiple calculators support a Pet," +
+      " the first one is chosen to calculate"
+  )
   public void multiple_supportingCalculators_theFirstOneIsChosen() {
 
     // given: two calculators support the Pet
@@ -88,11 +96,13 @@ class RegularCheckupServiceTest {
   }
 
   @Test
-  @DisplayName("in case no Calculator was found, next month as the proposed regular checkup date will be used")
+  @DisplayName(
+      "3. in case no Calculator was found, " +
+      "next month as the proposed regular checkup date will be used"
+  )
   public void no_supportingCalculators_nextMonthWillBeReturned() {
 
-    // given: two calculators support the Pet
-    //   the order within the list is used for fetching the first suitable calculator
+    // given: only not-supporting calculators are available for the Pet
     List<RegularCheckupDateCalculator> onlyNotSupportingCalculators = calculators(
         notSupporting(ONE_MONTHS_AGO)
     );
@@ -100,13 +110,14 @@ class RegularCheckupServiceTest {
     // when:
     LocalDate nextRegularCheckup = calculate(onlyNotSupportingCalculators);
 
-    // then: the result is the one from the first calculator
+    // then: the default implementation will return next month
     assertThat(nextRegularCheckup)
         .isEqualTo(NEXT_MONTH);
   }
 
   /*
-   * executes the SUT
+   * instantiates the SUT with the provided calculators as dependencies
+   * and executes the calculation
    */
   private LocalDate calculate(List<RegularCheckupDateCalculator> calculators) {
     RegularCheckupService service = new RegularCheckupServiceBean(

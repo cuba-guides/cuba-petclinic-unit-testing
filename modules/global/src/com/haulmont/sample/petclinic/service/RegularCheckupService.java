@@ -15,6 +15,6 @@ public interface RegularCheckupService {
   @Validated
   LocalDate calculateNextRegularCheckupDate(
       @RequiredView("pet-with-owner-and-type") Pet pet,
-      List<Visit> vistsOfPet
+      List<Visit> visitHistory
   );
 }

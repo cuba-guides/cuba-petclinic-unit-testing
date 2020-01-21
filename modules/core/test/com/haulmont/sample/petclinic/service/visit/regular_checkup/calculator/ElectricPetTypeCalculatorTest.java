@@ -60,7 +60,6 @@ class ElectricPetTypeCalculatorTest {
   }
 
 
-
   @Nested
   class CalculateRegularCheckupDate {
 
