@@ -13,6 +13,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,15 +24,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class ElectricPetTypeCalculatorTest {
 
-  @Mock
-  private TimeSource timeSource;
-
-  private Pet electricPet;
-
   private PetclinicData data = new PetclinicData();
-
   private RegularCheckupDateCalculator calculator = new ElectricPetTypeCalculator();
 
+  private Pet electricPet;
 
   @BeforeEach
   void createElectricPet() {
@@ -39,6 +35,10 @@ class ElectricPetTypeCalculatorTest {
   }
 
   @Nested
+  @DisplayName(
+      "1. it should only be used if the name of the Pet Type " +
+      "is 'Electric', otherwise not"
+  )
   class Supports {
 
     @Test
@@ -50,18 +50,19 @@ class ElectricPetTypeCalculatorTest {
 
     @Test
     public void calculator_doesNotSupportsPetsWithType_Water() {
-      // when:
+      // given:
       Pet waterPet = data.petWithType(data.waterType());
-      // then:
+      // expect:
       assertThat(calculator.supports(waterPet))
           .isFalse();
     }
-
   }
-
 
   @Nested
   class CalculateRegularCheckupDate {
+
+    @Mock
+    private TimeSource timeSource;
 
     private final LocalDate LAST_YEAR = now().minusYears(1);
     private final LocalDate LAST_MONTH = now().minusMonths(1);
@@ -78,15 +79,18 @@ class ElectricPetTypeCalculatorTest {
     }
 
     @Test
+    @DisplayName(
+        "2. the interval between two regular Checkups " +
+        "is one year for electric pets"
+    )
     public void intervalIsOneYear_fromTheLatestRegularCheckup() {
-
       // given: there are two regular checkups in the visit history of this pet
       visits.add(data.regularCheckup(LAST_YEAR));
       visits.add(data.regularCheckup(LAST_MONTH));
 
       // when:
       LocalDate nextRegularCheckup =
-          calculator.calculateRegularCheckupDate(electricPet, visits, timeSource);
+          calculate(electricPet, visits);
 
       // then:
       assertThat(nextRegularCheckup)
@@ -95,21 +99,19 @@ class ElectricPetTypeCalculatorTest {
 
 
     @Test
-    public void onlyRegularCheckupVisits_areTakenIntoConsideration_whenCalculatingNextRegularCheckup() {
+    @DisplayName(
+        "3. Visits that are not regular checkups " +
+        "should not influence the calculation"
+    )
+    public void onlyRegularCheckupVisitsMatter_whenCalculatingNextRegularCheckup() {
 
-      // given: there are two regular checkups in the visit history of this pet
-      visits.add(
-          data.regularCheckup(SIX_MONTHS_AGO)
-      );
-
-      // and: a non-regular checkup happened last month
-      visits.add(
-          data.surgery(LAST_MONTH)
-      );
+      // given: one regular checkup and one surgery
+      visits.add(data.regularCheckup(SIX_MONTHS_AGO));
+      visits.add(data.surgery(LAST_MONTH));
 
       // when:
       LocalDate nextRegularCheckup =
-          calculator.calculateRegularCheckupDate(electricPet, visits, timeSource);
+          calculate(electricPet, visits);
 
       // then: the date of the last checkup is used
       assertThat(nextRegularCheckup)
@@ -118,6 +120,10 @@ class ElectricPetTypeCalculatorTest {
 
 
     @Test
+    @DisplayName(
+        "4. in case the Pet has not done a regular checkup " +
+        "at the Petclinic before, next month should be proposed"
+    )
     public void ifThePetDidNotHavePreviousCheckups_nextMonthIsProposed() {
 
       // given: there is no regular checkup, just a surgery
@@ -125,7 +131,7 @@ class ElectricPetTypeCalculatorTest {
 
       // when:
       LocalDate nextRegularCheckup =
-          calculator.calculateRegularCheckupDate(electricPet, visits, timeSource);
+          calculate(electricPet, visits);
 
       // then:
       assertThat(nextRegularCheckup)
@@ -134,20 +140,30 @@ class ElectricPetTypeCalculatorTest {
 
 
     @Test
-    public void ifThePetHadACheckup_longerThanTheInterval_nextMonthIsProposed() {
+    @DisplayName(
+        "5. if the last Regular Checkup was performed longer than " +
+        "one year ago, next month should be proposed"
+    )
+    public void ifARegularCheckup_exceedsTheInterval_nextMonthIsProposed() {
 
       // given: one regular checkup thirteen month ago
       visits.add(data.regularCheckup(LAST_YEAR.minusMonths(1)));
 
       // when:
       LocalDate nextRegularCheckup =
-          calculator.calculateRegularCheckupDate(electricPet, visits, timeSource);
+          calculate(electricPet, visits);
 
       // then:
       assertThat(nextRegularCheckup)
           .isEqualTo(NEXT_MONTH);
     }
 
+    private LocalDate calculate(Pet pet, List<Visit> visitHistory) {
+      return calculator.calculateRegularCheckupDate(
+          pet,
+          visitHistory,
+          timeSource
+      );
+    }
   }
-
 }
