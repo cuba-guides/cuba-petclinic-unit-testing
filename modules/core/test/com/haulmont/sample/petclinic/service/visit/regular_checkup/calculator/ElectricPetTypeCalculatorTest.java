@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.haulmont.cuba.core.global.TimeSource;
 import com.haulmont.sample.petclinic.entity.pet.Pet;
 import com.haulmont.sample.petclinic.entity.visit.Visit;
-import com.haulmont.sample.petclinic.service.visit.regular_checkup.PetclinicData;
+import com.haulmont.sample.petclinic.PetclinicData;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;

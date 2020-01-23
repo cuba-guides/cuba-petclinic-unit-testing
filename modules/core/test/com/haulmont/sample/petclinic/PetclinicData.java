@@ -1,4 +1,4 @@
-package com.haulmont.sample.petclinic.service.visit.regular_checkup;
+package com.haulmont.sample.petclinic;
 
 import com.haulmont.sample.petclinic.entity.pet.Pet;
 import com.haulmont.sample.petclinic.entity.pet.PetType;
@@ -9,7 +9,7 @@ import java.util.Date;
 
 
 /**
- * PetclinicData represents an API abstraction for the Regular Checkup Service use-case
+ * PetclinicData represents an API abstraction for creating different entities for test purposes
  */
 public class PetclinicData {
 
@@ -29,10 +29,10 @@ public class PetclinicData {
   }
 
 
-  public Pet petWithType(PetType electricType) {
-    Pet electricPet = new Pet();
-    electricPet.setType(electricType);
-    return electricPet;
+  public Pet petWithType(PetType petType) {
+    Pet pet = new Pet();
+    pet.setType(petType);
+    return pet;
   }
 
   public PetType electricType() {

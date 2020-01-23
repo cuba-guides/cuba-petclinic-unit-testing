@@ -6,6 +6,7 @@ import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.haulmont.cuba.core.global.TimeSource;
+import com.haulmont.sample.petclinic.PetclinicData;
 import com.haulmont.sample.petclinic.service.RegularCheckupService;
 import com.haulmont.sample.petclinic.service.RegularCheckupServiceBean;
 import com.haulmont.sample.petclinic.service.visit.regular_checkup.calculator.RegularCheckupDateCalculator;

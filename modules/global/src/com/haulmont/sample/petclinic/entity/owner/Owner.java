@@ -1,5 +1,7 @@
 package com.haulmont.sample.petclinic.entity.owner;
 
+import com.haulmont.sample.petclinic.entity.pet.PetType;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
@@ -76,4 +78,14 @@ public class Owner extends Person {
     }
 
 
+    public long petsOfType(PetType petType) {
+
+        if (petType == null) {
+            return 0L;
+        }
+
+        return pets.stream()
+            .filter(pet -> Objects.equals(petType.getName(), pet.getType().getName()))
+            .count();
+    }
 }

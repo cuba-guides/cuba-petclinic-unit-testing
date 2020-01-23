@@ -30,14 +30,14 @@ public class RegularCheckupServiceBean implements RegularCheckupService {
   @Override
   public LocalDate calculateNextRegularCheckupDate(
       Pet pet,
-      List<Visit> vistsOfPet
+      List<Visit> visitHistory
   ) {
     RegularCheckupDateCalculator calculator = regularCheckupDateCalculators.stream()
         .filter(regularCheckupDateCalculator -> regularCheckupDateCalculator.supports(pet))
         .findFirst()
         .orElse(new NextMonthCalculator());
 
-    return calculator.calculateRegularCheckupDate(pet, vistsOfPet, timeSource);
+    return calculator.calculateRegularCheckupDate(pet, visitHistory, timeSource);
 
   }
 }
