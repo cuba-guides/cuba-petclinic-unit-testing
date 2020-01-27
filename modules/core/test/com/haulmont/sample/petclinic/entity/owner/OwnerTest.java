@@ -28,9 +28,9 @@ class OwnerTest {
   public void givenOnePetWithElectricPet_whenAskingForElectricType_oneIsReturned() {
 
     // given:
-    Pet electricPet = data.petWithType(electric);
-
-    owner.pets = Arrays.asList(electricPet);
+    owner.pets = Arrays.asList(
+        data.petWithType(electric)
+    );
 
     // expect:
     assertThat(owner.petsOfType(electric))
@@ -38,12 +38,12 @@ class OwnerTest {
   }
 
   @Test
-  public void givenOnePetWithElectricPet_whenAskingForFireType_oneIsReturned() {
+  public void givenOnePetWithElectricPet_whenAskingForFireType_zeroIsReturned() {
 
     // given:
-    Pet electricPet = data.petWithType(electric);
-
-    owner.pets = Arrays.asList(electricPet);
+    owner.pets = Arrays.asList(
+        data.petWithType(electric)
+    );
 
     // expect:
     assertThat(owner.petsOfType(fire))
@@ -55,15 +55,33 @@ class OwnerTest {
   public void givenTwoElectricPetsAndOneFirePet_whenAskingForElectricType_twoIsReturned() {
 
     // given:
-    Pet electricPet1 = data.petWithType(electric);
-    Pet electricPet2 = data.petWithType(electric);
-    Pet firePet1 = data.petWithType(fire);
-
-    owner.pets = Arrays.asList(electricPet1, firePet1, electricPet2);
+    owner.pets = Arrays.asList(
+        data.petWithType(electric),
+        data.petWithType(fire),
+        data.petWithType(electric)
+    );
 
     // expect:
     assertThat(owner.petsOfType(electric))
         .isEqualTo(2);
+  }
+
+
+  @Test
+  public void petsWithoutType_areNotConsideredInTheCounting() {
+
+    // given:
+    Pet petWithoutType = data.petWithType(null);
+
+    // and:
+    owner.pets = Arrays.asList(
+        data.petWithType(electric),
+        petWithoutType
+    );
+
+    // expect:
+    assertThat(owner.petsOfType(electric))
+        .isEqualTo(1);
   }
 
 

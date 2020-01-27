@@ -85,6 +85,7 @@ public class Owner extends Person {
         }
 
         return pets.stream()
+            .filter(pet -> Objects.nonNull(pet.getType()))
             .filter(pet -> Objects.equals(petType.getName(), pet.getType().getName()))
             .count();
     }
