@@ -1,7 +1,7 @@
 package com.haulmont.sample.petclinic.service.visit.regular_checkup;
 
-import static com.haulmont.sample.petclinic.service.visit.regular_checkup.TestConfigurableCalculator.notSupporting;
-import static com.haulmont.sample.petclinic.service.visit.regular_checkup.TestConfigurableCalculator.supportingWithDate;
+import static com.haulmont.sample.petclinic.service.visit.regular_checkup.ConfigurableTestCalculator.notSupporting;
+import static com.haulmont.sample.petclinic.service.visit.regular_checkup.ConfigurableTestCalculator.supportingWithDate;
 import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.assertThat;
 

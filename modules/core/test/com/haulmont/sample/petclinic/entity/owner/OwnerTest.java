@@ -25,7 +25,7 @@ class OwnerTest {
   }
 
   @Test
-  public void givenOnePetWithElectricPet_whenAskingForElectricType_oneIsReturned() {
+  public void aPetWithMatchingPetType_isCounted() {
 
     // given:
     owner.pets = Arrays.asList(
@@ -38,7 +38,7 @@ class OwnerTest {
   }
 
   @Test
-  public void givenOnePetWithElectricPet_whenAskingForFireType_zeroIsReturned() {
+  public void aPetWithNonMatchingPetType_isNotCounted() {
 
     // given:
     owner.pets = Arrays.asList(
@@ -52,7 +52,7 @@ class OwnerTest {
 
 
   @Test
-  public void givenTwoElectricPetsAndOneFirePet_whenAskingForElectricType_twoIsReturned() {
+  public void twoPetsMatch_andOneNot_twoIsReturned() {
 
     // given:
     owner.pets = Arrays.asList(
