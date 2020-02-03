@@ -32,8 +32,6 @@ public class VisitCreateRegularCheckup extends StandardEditor<Visit> {
   @Inject
   protected DataManager dataManager;
   @Inject
-  protected Notifications notifications;
-  @Inject
   protected DateField<Date> visitDateField;
 
   @Subscribe

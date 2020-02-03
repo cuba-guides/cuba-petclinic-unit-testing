@@ -16,15 +16,15 @@ public class RegularCheckupServiceBean implements RegularCheckupService {
 
   final protected TimeSource timeSource;
 
-  final protected List<RegularCheckupDateCalculator> regularCheckupDateCalculators;
+  final protected List<RegularCheckupDateCalculator> calculators;
 
   @Inject
   public RegularCheckupServiceBean(
       TimeSource timeSource,
-      List<RegularCheckupDateCalculator> regularCheckupDateCalculators
+      List<RegularCheckupDateCalculator> calculators
   ) {
     this.timeSource = timeSource;
-    this.regularCheckupDateCalculators = regularCheckupDateCalculators;
+    this.calculators = calculators;
   }
 
   @Override
@@ -32,7 +32,7 @@ public class RegularCheckupServiceBean implements RegularCheckupService {
       Pet pet,
       List<Visit> visitHistory
   ) {
-    RegularCheckupDateCalculator calculator = regularCheckupDateCalculators.stream()
+    RegularCheckupDateCalculator calculator = calculators.stream()
         .filter(regularCheckupDateCalculator -> regularCheckupDateCalculator.supports(pet))
         .findFirst()
         .orElse(new NextMonthCalculator());

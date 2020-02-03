@@ -5,9 +5,9 @@ import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.haulmont.cuba.core.global.TimeSource;
+import com.haulmont.sample.petclinic.PetclinicData;
 import com.haulmont.sample.petclinic.entity.pet.Pet;
 import com.haulmont.sample.petclinic.entity.visit.Visit;
-import com.haulmont.sample.petclinic.PetclinicData;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -24,10 +24,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class ElectricPetTypeCalculatorTest {
 
-  private PetclinicData data = new PetclinicData();
-  private RegularCheckupDateCalculator calculator = new ElectricPetTypeCalculator();
+  private PetclinicData data;
+  private RegularCheckupDateCalculator calculator;
 
   private Pet electricPet;
+
+  @BeforeEach
+  void createTestEnvironment() {
+    data = new PetclinicData();
+    calculator = new ElectricPetTypeCalculator();
+  }
 
   @BeforeEach
   void createElectricPet() {
